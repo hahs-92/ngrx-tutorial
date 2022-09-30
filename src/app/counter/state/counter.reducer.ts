@@ -8,6 +8,7 @@ import {
 
 import { initialState } from './counter.state';
 import { StateCounter } from '../models/state.model';
+import { changeChannelName } from './counter.actions';
 
 export const _counterReducer = createReducer(
   initialState,
@@ -20,6 +21,9 @@ export const _counterReducer = createReducer(
   on(reset, (state) => initialState),
   on(customerIncrement, (state, action) => {
     return { ...state, counter: state.counter + action.count };
+  }),
+  on(changeChannelName, (state) => {
+    return { ...state, channelName: 'hahs modified' };
   })
 );
 

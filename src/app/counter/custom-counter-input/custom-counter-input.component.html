@@ -1,9 +1,16 @@
 <section>
+  <h2 class="my-3">{{ channelName }}</h2>
   <input
     type="number"
     name="count"
     placeholder="Enter value"
     [(ngModel)]="value"
   />
-  <button (click)="onAdd()" class="btn btn-primary">Add to counter</button>
+  <button (click)="onAdd()" class="my-2 btn btn-primary">Add to counter</button>
+</section>
+
+<section class="my-3">
+  <button class="btn btn-primary" (click)="onChangeChannelName()">
+    Change name
+  </button>
 </section>

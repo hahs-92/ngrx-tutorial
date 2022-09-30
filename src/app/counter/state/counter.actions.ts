@@ -8,3 +8,5 @@ export const customerIncrement = createAction(
   'customincrement',
   props<{ count: number }>()
 );
+
+export const changeChannelName = createAction('changechannelname');
