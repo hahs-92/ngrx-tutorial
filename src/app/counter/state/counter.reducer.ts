@@ -7,7 +7,7 @@ import {
 } from './counter.actions';
 
 import { initialState } from './counter.state';
-import { StateCounter } from '../models/state.model';
+import { CounterState } from '../models/state.model';
 import { changeChannelName } from './counter.actions';
 
 export const _counterReducer = createReducer(
@@ -27,6 +27,6 @@ export const _counterReducer = createReducer(
   })
 );
 
-export function counterReducer(state: StateCounter | undefined, action: any) {
+export function counterReducer(state: CounterState | undefined, action: any) {
   return _counterReducer(state, action);
 }
