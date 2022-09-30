@@ -1,1 +1,2 @@
-export const initialState = { counter: 0 };
+import { StateCounter } from '../models/state.model';
+export const initialState: StateCounter = { counter: 0 };
