@@ -1,1 +1,23 @@
-<p>posts-list works!</p>
+<section class="row">
+  <div class="col-md-12">
+    <h3>Post List</h3>
+
+    con el if
+    <table *ngIf="posts$ | async as postsData" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let post of postsData">
+        <tr>
+          <th>{{ post.id }}</th>
+          <th>{{ post.title }}</th>
+          <th>{{ post.description }}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
