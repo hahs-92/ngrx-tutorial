@@ -22,6 +22,7 @@ import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AddPostComponent } from './posts/add-post/add-post.component';
+import { EditPostComponent } from './posts/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AddPostComponent } from './posts/add-post/add-post.component';
     HeaderComponent,
     PostsListComponent,
     AddPostComponent,
+    EditPostComponent,
   ],
   //agregamos los reducers, puede ser mas de uno
   imports: [

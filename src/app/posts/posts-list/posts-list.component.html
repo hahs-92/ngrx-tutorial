@@ -12,6 +12,7 @@
           <th>Id</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody *ngFor="let post of postsData">
@@ -19,6 +20,7 @@
           <th>{{ post.id }}</th>
           <th>{{ post.title }}</th>
           <th>{{ post.description }}</th>
+          <th [routerLink]="['/posts/edit', post.id]">Update</th>
         </tr>
       </tbody>
     </table>
