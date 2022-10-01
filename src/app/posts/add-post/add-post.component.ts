@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Post } from '../../models/posts.models';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import { addPost } from '../state/posts.actions';
 
 @Component({
   selector: 'app-add-post',
@@ -13,7 +16,7 @@ export class AddPostComponent implements OnInit {
     description: ['', [Validators.required, Validators.minLength(10)]],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit(): void {}
 
@@ -36,6 +39,14 @@ export class AddPostComponent implements OnInit {
     if (this.postForm.invalid) {
       return;
     }
-    console.log(this.postForm.value);
+
+    const newPost: Post = {
+      title: this.postForm.value.title!,
+      description: this.postForm.value.description!,
+    };
+
+    this.store.dispatch(addPost({ post: newPost }));
+
+    this.postForm.reset();
   }
 }
