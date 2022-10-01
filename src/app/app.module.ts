@@ -14,7 +14,8 @@ import { HomeComponent } from './home/home.component';
 //redux
 import { StoreModule } from '@ngrx/store';
 //--reducer
-import { counterReducer } from './counter/state/counter.reducer';
+import { appReducer } from './store/app.state';
+
 import { CustomCounterInputComponent } from './counter/custom-counter-input/custom-counter-input.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
@@ -37,8 +38,11 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot({ counter: counterReducer }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

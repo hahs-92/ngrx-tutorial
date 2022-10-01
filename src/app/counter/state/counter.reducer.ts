@@ -6,8 +6,7 @@ import {
   customerIncrement,
 } from './counter.actions';
 
-import { initialState } from './counter.state';
-import { CounterState } from '../models/state.model';
+import { initialState, CounterState } from './counter.state';
 import { changeChannelName } from './counter.actions';
 
 export const _counterReducer = createReducer(

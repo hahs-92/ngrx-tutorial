@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CounterState, AppState } from '../models/state.model';
+
 import { changeChannelName, customerIncrement } from '../state/counter.actions';
 import { getChannelName } from '../state/counter-selector';
 import { Observable } from 'rxjs';
+import { AppState } from '../../store/app.state';
 
 @Component({
   selector: 'app-custom-counter-input',

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CounterState } from '../models/state.model';
+import { CounterState } from './counter.state';
 
 //counter es el nombre asignado en el appModule
 const getCounterState = createFeatureSelector<CounterState>('counter');
