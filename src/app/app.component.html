@@ -1,4 +1,6 @@
 <app-header></app-header>
+<app-loading-spinner *ngIf="showLoading$ | async"></app-loading-spinner>
+
 <main class="container">
   <section class="row">
     <div class="col-md-12">
