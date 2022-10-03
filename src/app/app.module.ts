@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing.module';
 
@@ -16,6 +17,7 @@ import { appReducer } from './store/app.state';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, HeaderComponent],
@@ -23,6 +25,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}), //para que no cargue todo el state. lazy loading
@@ -31,6 +34,7 @@ import { environment } from '../environments/environment';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    EffectsModule.forRoot([]),
   ],
   providers: [],
   bootstrap: [AppComponent],
