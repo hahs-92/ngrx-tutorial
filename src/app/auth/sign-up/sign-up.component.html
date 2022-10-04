@@ -1,10 +1,10 @@
 <main class="container">
   <div class="row my-3">
     <div class="col-md-6 offset-md-3">
-      <h3>Login</h3>
+      <h3>Sign up</h3>
       <hr />
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <section class="mb-3">
           <label for="email">Email</label>
           <input
@@ -15,13 +15,14 @@
           />
           <div
             *ngIf="
-              loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+              signupForm.get('email')?.touched &&
+              signupForm.get('email')?.invalid
             "
           >
-            <span *ngIf="loginForm.get('email')?.errors?.['required']">
+            <span *ngIf="signupForm.get('email')?.errors?.['required']">
               Email is required
             </span>
-            <span *ngIf="loginForm.get('email')?.errors?.['email']">
+            <span *ngIf="signupForm.get('email')?.errors?.['email']">
               Email invalid
             </span>
           </div>
@@ -36,25 +37,25 @@
           />
           <div
             *ngIf="
-              loginForm.get('password')?.touched &&
-              loginForm.get('password')?.invalid
+              signupForm.get('password')?.touched &&
+              signupForm.get('password')?.invalid
             "
           >
-            <span *ngIf="loginForm.get('password')?.errors?.['required']">
+            <span *ngIf="signupForm.get('password')?.errors?.['required']">
               Password is required
             </span>
-            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            <span *ngIf="signupForm.get('password')?.errors?.['minlength']">
               password should be minimun 4 charecters
             </span>
           </div>
         </section>
         <section class="mb-3">
           <button
-            [disabled]="loginForm.invalid"
+            [disabled]="signupForm.invalid"
             type="submit"
             class="btn btn-primary"
           >
-            Login
+            Sing up
           </button>
         </section>
       </form>
