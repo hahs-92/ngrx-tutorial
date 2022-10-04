@@ -5,6 +5,7 @@ import { loginStart, loginSuccess } from './auth.actions';
 import { AuthService } from '../services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
+import { Router } from '@angular/router';
 import {
   setLoadingSpinner,
   setErrorMessage,
@@ -15,7 +16,8 @@ export class AuthEffects {
   constructor(
     private store: Store<AppState>,
     private actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   login$ = createEffect(() => {
@@ -28,6 +30,7 @@ export class AuthEffects {
           }),
           map((data) => {
             const user = this.authService.formatUser(data);
+            //cuando se dispatch esta action se ejecutara el otro effect
             return loginSuccess({ user });
           }),
           catchError((err) => {
@@ -43,4 +46,16 @@ export class AuthEffects {
       })
     );
   });
+
+  loginRedirect$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(loginSuccess),
+        tap((action) => {
+          this.router.navigate(['/']);
+        })
+      );
+    },
+    { dispatch: false } // le indicamos que no retorne nada
+  );
 }
