@@ -3,6 +3,9 @@
 
 <main class="container">
   <section class="row">
+    <span *ngIf="errorMessage$ | async as error" class="alert alert-danger">{{
+      error
+    }}</span>
     <div class="col-md-12">
       <router-outlet></router-outlet>
     </div>
