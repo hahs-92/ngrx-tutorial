@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, finalize, tap, catchError, of } from 'rxjs';
 import {
+  autoLogin,
   loginStart,
   loginSuccess,
   signupStart,
@@ -32,6 +33,7 @@ export class AuthEffects {
         return this.authService.login(action.email, action.password).pipe(
           map((data) => {
             const user = this.authService.formatUser(data);
+            this.authService.setUserInLocalStore(user);
             //cuando se dispatch esta action se ejecutara el otro effect
             return loginSuccess({ user });
           }),
@@ -49,10 +51,10 @@ export class AuthEffects {
     );
   });
 
-  loginRedirect$ = createEffect(
+  redirect$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(loginSuccess),
+        ofType(loginSuccess, signupSuccess),
         tap((action) => {
           this.store.dispatch(setErrorMessage({ message: '' }));
           this.router.navigate(['/']);
@@ -69,6 +71,7 @@ export class AuthEffects {
         return this.authService.signup(action.email, action.password).pipe(
           map((data) => {
             const user = this.authService.formatUser(data);
+            this.authService.setUserInLocalStore(user);
             return signupSuccess({ user });
           }),
           catchError((err) => {
@@ -85,16 +88,30 @@ export class AuthEffects {
     );
   });
 
-  signUpRedirect$ = createEffect(
+  //ahora se llama junto con el loginRedircet
+  // signUpRedirect$ = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(signupSuccess),
+  //       tap((action) => {
+  //         this.store.dispatch(setErrorMessage({ message: '' }));
+  //         this.router.navigate(['/']);
+  //       })
+  //     );
+  //   },
+  //   { dispatch: false } // le indicamos que no retorne nada
+  // );
+
+  autoLogin$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(signupSuccess),
+        ofType(autoLogin),
         tap((action) => {
-          this.store.dispatch(setErrorMessage({ message: '' }));
-          this.router.navigate(['/']);
+          const user = this.authService.getUserLocalStorage();
+          console.log(user);
         })
       );
     },
-    { dispatch: false } // le indicamos que no retorne nada
+    { dispatch: false }
   );
 }

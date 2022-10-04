@@ -20,6 +20,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { SharedReducer } from './store/shared/shared.reducer';
+import { AuthEffects } from './auth/state/auth.effects';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { SharedReducer } from './store/shared/shared.reducer';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
