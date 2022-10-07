@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing.module';
 
@@ -21,6 +21,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { SharedReducer } from './store/shared/shared.reducer';
 import { AuthEffects } from './auth/state/auth.effects';
+import { AuthTokenInterceptor } from './auth/interceptors/auth-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { AuthEffects } from './auth/state/auth.effects';
     }),
     EffectsModule.forRoot([AuthEffects]),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

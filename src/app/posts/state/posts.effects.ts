@@ -10,7 +10,7 @@ import {
   deletePost,
   deletePostSuccess,
 } from './posts.actions';
-import { tap, mergeMap, map } from 'rxjs';
+import { tap, mergeMap, map, switchMap } from 'rxjs';
 import { updatePostSuccess } from './posts.actions';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class PostsEffects {
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updatePost),
-      mergeMap((action) =>
+      switchMap((action) =>
         this.postsService.updatePost(action.post).pipe(
           map((data) => {
             return updatePostSuccess({ post: action.post });
@@ -60,7 +60,7 @@ export class PostsEffects {
   deletePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deletePost),
-      mergeMap((action) =>
+      switchMap((action) =>
         this.postsService.deletePost(action.postId).pipe(
           map((data) => {
             return deletePostSuccess({ postId: action.postId });
