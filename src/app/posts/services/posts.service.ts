@@ -25,10 +25,30 @@ export class PostsService {
   }
 
   //firebase devuleve en el name, el id del nuevo post
-  addPosts(post: Post): Observable<{ name: string }> {
+  addPost(post: Post): Observable<{ name: string }> {
     return this.http.post<{ name: string }>(
       `https://vue-completecourse.firebaseio.com/posts.json`,
       post
+    );
+  }
+
+  updatePost(post: Post) {
+    //de esta manera le debemos enviar la data al back
+    const postData = {
+      [post.id!]: {
+        title: post.title,
+        description: post.description,
+      },
+    };
+    return this.http.put(
+      `https://vue-completecourse.firebaseio.com/posts.json`,
+      postData
+    );
+  }
+
+  deletePost(id: string) {
+    return this.http.delete(
+      `https://vue-completecourse.firebaseio.com/posts/${id}.json`
     );
   }
 }

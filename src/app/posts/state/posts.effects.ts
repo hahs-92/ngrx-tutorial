@@ -6,8 +6,12 @@ import {
   loadPostsSuccess,
   addPost,
   addPostSuccess,
+  updatePost,
+  deletePost,
+  deletePostSuccess,
 } from './posts.actions';
 import { tap, mergeMap, map } from 'rxjs';
+import { updatePostSuccess } from './posts.actions';
 
 @Injectable()
 export class PostsEffects {
@@ -30,10 +34,36 @@ export class PostsEffects {
     this.actions$.pipe(
       ofType(addPost),
       mergeMap((action) =>
-        this.postsService.addPosts(action.post).pipe(
+        this.postsService.addPost(action.post).pipe(
           map((data) => {
             const post = { ...action.post, id: data.name };
             return addPostSuccess({ post });
+          })
+        )
+      )
+    )
+  );
+
+  updatePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updatePost),
+      mergeMap((action) =>
+        this.postsService.updatePost(action.post).pipe(
+          map((data) => {
+            return updatePostSuccess({ post: action.post });
+          })
+        )
+      )
+    )
+  );
+
+  deletePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deletePost),
+      mergeMap((action) =>
+        this.postsService.deletePost(action.postId).pipe(
+          map((data) => {
+            return deletePostSuccess({ postId: action.postId });
           })
         )
       )
