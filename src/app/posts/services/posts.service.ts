@@ -23,4 +23,12 @@ export class PostsService {
         })
       );
   }
+
+  //firebase devuleve en el name, el id del nuevo post
+  addPosts(post: Post): Observable<{ name: string }> {
+    return this.http.post<{ name: string }>(
+      `https://vue-completecourse.firebaseio.com/posts.json`,
+      post
+    );
+  }
 }
