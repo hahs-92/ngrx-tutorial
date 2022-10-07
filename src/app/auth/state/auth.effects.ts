@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, finalize, tap, catchError, of } from 'rxjs';
+import { map, mergeMap, finalize, tap, catchError, of, exhaustMap } from 'rxjs';
 import {
   autoLogin,
   loginStart,
