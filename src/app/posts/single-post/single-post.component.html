@@ -1,0 +1,11 @@
+<h3>Post Details</h3>
+
+<section *ngIf="post$ | async as postData">
+  <p>Id: {{ postData.id }}</p>
+  <p>Title: {{ postData.title }}</p>
+  <p>Description: {{ postData.description }}</p>
+
+  <div>
+    <a [routerLink]="['/posts']">Back to posts</a>
+  </div>
+</section>
