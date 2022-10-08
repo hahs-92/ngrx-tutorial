@@ -9,7 +9,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 export interface AppState {
   [SHARED_STATE_NAME]: SharedState;
   [AUTH_STATE_NAME]: AuthState;
-  router: RouterReducerState;
+  router: RouterReducerState; //router-store
   // counter: CounterState;
   // posts: PostsState;
 }

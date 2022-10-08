@@ -23,6 +23,7 @@ import { SharedReducer } from './store/shared/shared.reducer';
 import { AuthEffects } from './auth/state/auth.effects';
 import { AuthTokenInterceptor } from './auth/interceptors/auth-token.interceptor';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './store/router/custom-serializer';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,12 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([AuthEffects]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      //agregar custom serializer
+      //para optimizar la data que nos devuleve
+      //router-store
+      serializer: CustomSerializer,
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
