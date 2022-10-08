@@ -22,6 +22,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { SharedReducer } from './store/shared/shared.reducer';
 import { AuthEffects } from './auth/state/auth.effects';
 import { AuthTokenInterceptor } from './auth/interceptors/auth-token.interceptor';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AuthTokenInterceptor } from './auth/interceptors/auth-token.interceptor
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([AuthEffects]),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
