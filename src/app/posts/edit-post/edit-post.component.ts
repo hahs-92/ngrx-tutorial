@@ -26,32 +26,33 @@ export class EditPostComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((param) => {
-      const id = param.get('id') || '';
-      // -----DEPRECADO---------
-      // this.store.select(getPostById, { id }).subscribe((data) => {
-      //   this.post = data!;
-      //   this.createForm();
-      // });
-      this.postSubscription = this.store
-        .select(getPostById({ id }))
-        .subscribe((data) => {
-          this.post = data!;
-          this.createForm();
+    //LO REEMPLAZAMOS POR STORE-ROUTER IMPLEMENTATION
+    // this.route.paramMap.subscribe((param) => {
+    //   const id = param.get('id') || ''
+    //   this.postSubscription = this.store
+    //     .select(getPostById({ id }))
+    //     .subscribe((data) => {
+    //       this.post = data!;
+    //       this.createForm();
+    //     });
+    // });
+    // __________con router-store------------
+    this.createForm();
+    this.postSubscription = this.store.select(getPostById).subscribe((post) => {
+      if (post) {
+        this.post = post!;
+        this.postForm.patchValue({
+          title: post.title,
+          description: post.description,
         });
+      }
     });
   }
 
   createForm() {
     this.postForm = this.fb.group({
-      title: [
-        this.post.title || '',
-        [Validators.required, Validators.minLength(6)],
-      ],
-      description: [
-        this.post.description || '',
-        [Validators.required, Validators.minLength(10)],
-      ],
+      title: ['', [Validators.required, Validators.minLength(6)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
@@ -81,7 +82,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const post = { id: this.post.id, title, description };
 
     this.store.dispatch(updatePost({ post }));
-    this.router.navigate(['posts']);
+    this.router.navigate(['posts']); //se podria implementar en un effect
   }
 
   ngOnDestroy(): void {
