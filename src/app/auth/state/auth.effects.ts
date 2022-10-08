@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, finalize, tap, catchError, of, exhaustMap } from 'rxjs';
+import {
+  map,
+  mergeMap,
+  finalize,
+  tap,
+  catchError,
+  of,
+  exhaustMap,
+  switchMap,
+} from 'rxjs';
 import {
   autoLogin,
   loginStart,
@@ -31,15 +40,17 @@ export class AuthEffects {
   login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loginStart),
-      mergeMap((action) => {
+      exhaustMap((action) => {
         return this.authService.login(action.email, action.password).pipe(
           map((data) => {
+            this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
             this.authService.setUserInLocalStore(user);
             //cuando se dispatch esta action se ejecutara el otro effect
             return loginSuccess({ user, redirect: true });
           }),
           catchError((err) => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
             const errorMessage = this.authService.getErrorMessage(
               err.error.error.message
             );
@@ -71,7 +82,7 @@ export class AuthEffects {
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(signupStart),
-      mergeMap((action) => {
+      exhaustMap((action) => {
         return this.authService.signup(action.email, action.password).pipe(
           map((data) => {
             const user = this.authService.formatUser(data);

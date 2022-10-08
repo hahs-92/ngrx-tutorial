@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable, exhaustMap } from 'rxjs';
+import { Observable, exhaustMap, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { getToken } from '../state/auth.selector';
@@ -19,6 +19,9 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return this.store.select(getToken).pipe(
+      //solucion del bug de logout, al hacer logout el user era null y el selector del token se activaba
+      //lo que hacia que le interceptor volviera hacer la peticion
+      take(1),
       exhaustMap((token) => {
         if (!token) {
           return next.handle(request);
