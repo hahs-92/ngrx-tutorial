@@ -13,6 +13,7 @@ import {
 import { tap, mergeMap, map, switchMap, filter } from 'rxjs';
 import { updatePostSuccess } from './posts.actions';
 import { Post } from '../../models/posts.models';
+import { Update } from '@ngrx/entity';
 import {
   RouterNavigatedAction,
   RouterNavigationAction,
@@ -56,7 +57,15 @@ export class PostsEffects {
       switchMap((action) =>
         this.postsService.updatePost(action.post).pipe(
           map((data) => {
-            return updatePostSuccess({ post: action.post });
+            // SIN ENTITY
+            // return updatePostSuccess({ post: action.post });
+
+            //CON ENETITY
+            const updatedPost: Update<Post> = {
+              id: action.post.id!,
+              changes: { ...action.post },
+            };
+            return updatePostSuccess({ post: updatedPost });
           })
         )
       )

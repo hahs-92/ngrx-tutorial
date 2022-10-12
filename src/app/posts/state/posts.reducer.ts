@@ -6,33 +6,46 @@ import {
   loadPostsSuccess,
   updatePostSuccess,
 } from './posts.actions';
-import { initialState, PostsState } from './posts.state';
+import { initialState, postsAdapter, PostsState } from './posts.state';
 import { addPostSuccess, deletePostSuccess } from './posts.actions';
 
 const _postsReducer = createReducer(
   initialState,
   on(addPostSuccess, (state, action) => {
-    let post = { ...action.post };
+    return postsAdapter.addOne(action.post, state);
 
-    return { ...state, posts: [...state.posts, post] };
+    //SIN ENTITY
+    // let post = { ...action.post };
+
+    // return { ...state, posts: [...state.posts, post] };
   }),
   on(updatePostSuccess, (state, action) => {
-    const updatePosts = state.posts.map((p) => {
-      return action.post.id === p.id ? action.post : p;
-    });
+    // CON ENTITY
+    //NECESITAMOS MODIFICAR EL ACTION Y EL EFECTO
+    return postsAdapter.updateOne(action.post, state);
 
-    return { ...state, posts: updatePosts };
+    //SIN ENTITY
+    // const updatePosts = state.posts.map((p) => {
+    //   return action.post.id === p.id ? action.post : p;
+    // });
+    // return { ...state, posts: updatePosts };
   }),
   on(deletePostSuccess, (state, action) => {
-    const posts = state.posts.filter((post) => post.id !== action.postId);
+    return postsAdapter.removeOne(action.postId, state);
 
-    return { ...state, posts };
+    // SIN ENTITY
+    // const posts = state.posts.filter((post) => post.id !== action.postId);
+
+    // return { ...state, posts };
   }),
   on(loadPostsSuccess, (state, action) => {
-    return {
-      ...state,
-      posts: action.posts,
-    };
+    return postsAdapter.setAll(action.posts, state);
+
+    // SIN ENTITY
+    // return {
+    //   ...state,
+    //   posts: action.posts,
+    // };
   })
 );
 
