@@ -3,11 +3,15 @@ import { Post } from '../../models/posts.models';
 
 //para trabajar con ngEntity extendemos de EntityState
 export interface PostsState extends EntityState<Post> {
+  // SI QUISIERAMOS PODEMOS AGREGAR OTROS CAMPOS
+  //loading: boolean
   //con ngEntity no agregamos esta lista
   //posts: Post[];
 }
 
 //ng-entity
+// PODRIA RECIBIR UN OBJETO CON
+//selectId, sortComparer
 export const postsAdapter = createEntityAdapter<Post>();
 
 //CON GN-ENTITY

@@ -10,10 +10,21 @@ import {
   deletePost,
   deletePostSuccess,
 } from './posts.actions';
-import { tap, mergeMap, map, switchMap, filter } from 'rxjs';
+import {
+  tap,
+  mergeMap,
+  map,
+  switchMap,
+  filter,
+  withLatestFrom,
+  of,
+} from 'rxjs';
 import { updatePostSuccess } from './posts.actions';
 import { Post } from '../../models/posts.models';
 import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import { getPosts } from './posts.selector';
 import {
   RouterNavigatedAction,
   RouterNavigationAction,
@@ -22,7 +33,11 @@ import {
 
 @Injectable()
 export class PostsEffects {
-  constructor(private actions$: Actions, private postsService: PostsService) {}
+  constructor(
+    private actions$: Actions,
+    private postsService: PostsService,
+    private store: Store<AppState>
+  ) {}
 
   loadPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -102,6 +117,23 @@ export class PostsEffects {
           })
         );
       })
+
+      //SI EL POST ESTA EN EL STORE NO SE HACE UN LLAMADO A LA API
+      //PODEMOS HACER ALGO PARECIDO PARA LOADPOSTS
+      //AUNQUE SE INTRODUCIRIAN ALGUNOS BUGS
+      // withLatestFrom(this.store.select(getPosts)),
+      // switchMap(([id, posts]) => {
+      //   if (!posts.length) {
+      //     return this.postsService.getPostById(id).pipe(
+      //       map((post) => {
+      //         const postData = [{ ...post, id }];
+      //         return loadPostsSuccess({ posts: postData });
+      //       })
+      //     );
+      //   }
+
+      //   return of(loadPostsSuccess({ posts: posts }));
+      // })
     )
   );
 }

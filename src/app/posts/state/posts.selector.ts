@@ -26,6 +26,10 @@ export const getPostById = createSelector(
   }
 );
 
+//EN EL CASO QUE POST TUVIERA LA PROPIEDAD LOADING
+//DE ESTA FORMA SE OBTENDRIA
+//export const getLoading = createSelector(getPostsState, state => state.loading)
+
 //SIN ENTITY
 /*
 

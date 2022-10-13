@@ -12,6 +12,8 @@ import { addPostSuccess, deletePostSuccess } from './posts.actions';
 const _postsReducer = createReducer(
   initialState,
   on(addPostSuccess, (state, action) => {
+    // si tuviera otra propiedad
+    // return postsAdapter.addOne(action.post, {...state, loading: false});
     return postsAdapter.addOne(action.post, state);
 
     //SIN ENTITY
