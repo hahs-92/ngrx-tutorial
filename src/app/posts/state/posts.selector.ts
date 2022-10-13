@@ -1,16 +1,38 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { PostsState } from './posts.state';
+import { postsAdapter, PostsState } from './posts.state';
 import { getCurrentRoute } from '../../store/router/router.selector';
 import { RouterStateUrl } from '../../store/router/custom-serializer';
 import { Post } from '../../models/posts.models';
 
 export const POSTS_STATE_NAME = 'posts';
-
 const getPostsState = createFeatureSelector<PostsState>(POSTS_STATE_NAME);
+
+//CON ENTITY
+export const postsSelectors = postsAdapter.getSelectors();
+
+export const getPosts = createSelector(getPostsState, postsSelectors.selectAll);
+
+export const getPostEntities = createSelector(
+  getPostsState,
+  postsSelectors.selectEntities
+);
+
+//entity + store-router
+export const getPostById = createSelector(
+  getPostEntities,
+  getCurrentRoute,
+  (posts, route: RouterStateUrl) => {
+    return posts ? posts[route.params['id']] : null;
+  }
+);
+
+//SIN ENTITY
+/*
 
 export const getPosts = createSelector(getPostsState, (state) => {
   return state.posts;
 });
+
 
 // ---------DEPRECADO----------
 //se realiza como esta abajo
@@ -34,3 +56,5 @@ export const getPostById = createSelector(
     return posts ? posts.find((post) => post.id === route.params['id']) : null;
   }
 );
+
+*/
